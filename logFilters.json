@@ -1,0 +1,13 @@
+{
+  "commonSettings": {
+    "logEntryPrefixRegex": "" 
+  },
+  "reactives": [
+    {
+      "filterRegex": "" 
+    },
+    {
+      "filterRegex": ""
+    }
+  ]
+}
