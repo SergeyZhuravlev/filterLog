@@ -3,6 +3,8 @@ using System.Text.Json.Serialization;
 using System.Text.Json;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace filterLog
 {
@@ -20,6 +22,36 @@ namespace filterLog
         var optionalFiltersConfigPath = args.Length > 2 ? args[2] : null;
         var settings = new Settings(optionalFiltersConfigPath);
 
+        var prefixMatchRegexString = settings.Filters.CommonSettings.LogEntryPrefixRegex;
+        var reactiveMatchRegexStrings = settings.Filters.Reactives.Select(r => r.FilterRegex);
+        var supperMatchRegexString = prefixMatchRegexString + "((" + string.Join(")|(", reactiveMatchRegexStrings) + "))";
+
+        var defaultRegexOptions = RegexOptions.Compiled | RegexOptions.ECMAScript;
+        var supperMatch = new Regex(supperMatchRegexString, defaultRegexOptions);
+        var prefixMatch = new Regex(prefixMatchRegexString, defaultRegexOptions);
+        var reactiveMatches = reactiveMatchRegexStrings.Select(s => new Regex(s, defaultRegexOptions)); 
+      
+        bool wasMatching = false;
+        foreach(var line in File.ReadLines(logPath))
+        {
+          if(wasMatching)
+          {
+            if(prefixMatch.IsMatch(line))
+              wasMatching = false;
+            else
+            {
+              Console.WriteLine(line);
+              continue;
+            }
+          }
+          if(!supperMatch.IsMatch(line))
+            continue;
+          if(reactiveMatches.Any(r => r.IsMatch(line)))
+          {
+            wasMatching = true;
+            Console.WriteLine(line);
+          }
+        }
       //var options = new JsonSerializerOptions
       //{
       //    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
@@ -45,3 +77,4 @@ namespace filterLog
     private static string Help => $"Application filtering essential from log file. {Environment.NewLine}Usage example: {Environment.NewLine}filterLog pathToLog.log [pathToFiltersConfig.json]";
   }
 }
+
