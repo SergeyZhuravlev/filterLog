@@ -1,13 +1,55 @@
 {
   "commonSettings": {
-    "logEntryPrefixRegex": "" 
+    "logEntryPrefixRegex": "^\\d\\d:\\d\\d:\\d\\d\\.\\d\\d\\d\\t0x\\w+\\t\\w+\\t" 
   },
   "reactives": [
     {
-      "filterRegex": "" 
+      "filterRegex": ".*SecurityRatingProviderImpl" 
     },
     {
-      "filterRegex": ""
+      "filterRegex": ".*DisinfectionManagerImpl::AddDisinfectTask:"
+    },
+    {
+      "filterRegex": ".*DisinfectTask::Run: Start DisinfectTask..."
+    },
+    {
+      "filterRegex": ".*Going to stop processing"
+    },
+    {
+      "filterRegex": ".*AvengineScanNotifications::OnObjectDetectImpl:"
+    },
+    {
+      "filterRegex": ".*operator \\+=: \\+ threat \\["
+    },
+    {
+      "filterRegex": ".*Terminate process"
+    },
+    {
+      "filterRegex": ".*ActionSelector::AskUser:"
+    },
+	{
+      "filterRegex": ".*AskUser result:"
+    },
+	{
+      "filterRegex": ".*threats_disinfect::TerminateProcesses"
+    },
+	{
+      "filterRegex": ".*ScanIOSettings"
+    },
+	{
+      "filterRegex": ".*AvengineScanNotifications::OnObjectBegin: <"
+    },
+	{
+      "filterRegex": ".*AvengineScanNotifications::OnObjectDone: <"
+    },
+	{
+      "filterRegex": ".*cProtectionSettings"
+    },
+	{
+      "filterRegex": ".*cOASSettings"
+    },
+	{
+      "filterRegex": ".*cODSSettings"
     }
   ]
 }

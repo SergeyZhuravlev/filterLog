@@ -14,12 +14,12 @@ namespace filterLog
     {
       try
       {
-        if(args.Length < 2)
+        if(args.Length < 1)
           throw new Exception ("First argument shuold be path to log file");
-        if(args.Length > 3)          
+        if(args.Length > 2)          
           throw new Exception ("Too many arguments. Should be one or too");
-        var logPath = args[1];
-        var optionalFiltersConfigPath = args.Length > 2 ? args[2] : null;
+        var logPath = args[0];
+        var optionalFiltersConfigPath = args.Length > 1 ? args[1] : null;
         var settings = new Settings(optionalFiltersConfigPath);
 
         var prefixMatchRegexString = settings.Filters.CommonSettings.LogEntryPrefixRegex;
