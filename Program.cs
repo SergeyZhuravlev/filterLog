@@ -14,10 +14,10 @@ namespace filterLog
     {
       try
       {
-        if(args.Length < 1)
-          throw new Exception ("First argument shuold be path to log file");
-        if(args.Length > 2)          
-          throw new Exception ("Too many arguments. Should be one or too");
+        if (args.Length < 1)
+          throw new Exception("First argument shuold be path to log file");
+        if (args.Length > 2)
+          throw new Exception("Too many arguments. Should be one or too");
         var logPath = args[0];
         var optionalFiltersConfigPath = args.Length > 1 ? args[1] : null;
         var settings = new Settings(optionalFiltersConfigPath);
@@ -29,14 +29,14 @@ namespace filterLog
         var defaultRegexOptions = RegexOptions.Compiled | RegexOptions.ECMAScript;
         var supperMatch = new Regex(supperMatchRegexString, defaultRegexOptions);
         var prefixMatch = new Regex(prefixMatchRegexString, defaultRegexOptions);
-        var reactiveMatches = reactiveMatchRegexStrings.Select(s => new Regex(s, defaultRegexOptions)); 
-      
+        var reactiveMatches = reactiveMatchRegexStrings.Select(s => new Regex(s, defaultRegexOptions));
+
         bool wasMatching = false;
-        foreach(var line in File.ReadLines(logPath))
+        foreach (var line in File.ReadLines(logPath))
         {
-          if(wasMatching)
+          if (wasMatching)
           {
-            if(prefixMatch.IsMatch(line))
+            if (prefixMatch.IsMatch(line))
               wasMatching = false;
             else
             {
@@ -44,27 +44,27 @@ namespace filterLog
               continue;
             }
           }
-          if(!supperMatch.IsMatch(line))
+          if (!supperMatch.IsMatch(line))
             continue;
-          if(reactiveMatches.Any(r => r.IsMatch(line)))
+          if (reactiveMatches.Any(r => r.IsMatch(line)))
           {
             wasMatching = true;
             Console.WriteLine(line);
           }
         }
-      //var options = new JsonSerializerOptions
-      //{
-      //    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-      //    WriteIndented = true
-      //};
-      //var jsonString = File.ReadAllText("my-model.json");
-      //var jsonModel = JsonSerializer.Deserialize<MyModel>(jsonString, options);
-      //var jsonModel = new FiltersDto(){ CommonSettings = new FiltersHeader(), Reactives = new List<Reactive>(){ new Reactive(), new Reactive()}};
-      //var modelJson = JsonSerializer.Serialize(jsonModel, options);
-      //Console.WriteLine(modelJson);
-      //Console.WriteLine("Hello World!");
+        //var options = new JsonSerializerOptions
+        //{
+        //    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        //    WriteIndented = true
+        //};
+        //var jsonString = File.ReadAllText("my-model.json");
+        //var jsonModel = JsonSerializer.Deserialize<MyModel>(jsonString, options);
+        //var jsonModel = new FiltersDto(){ CommonSettings = new FiltersHeader(), Reactives = new List<Reactive>(){ new Reactive(), new Reactive()}};
+        //var modelJson = JsonSerializer.Serialize(jsonModel, options);
+        //Console.WriteLine(modelJson);
+        //Console.WriteLine("Hello World!");
       }
-      catch(Exception ex)
+      catch (Exception ex)
       {
         Console.WriteLine(ex.Message);
         Console.WriteLine();
