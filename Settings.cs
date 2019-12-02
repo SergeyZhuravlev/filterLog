@@ -50,9 +50,10 @@ namespace filterLog
         return filtersPath;
       }
       var defaultFilterFileName = "logFilters.json";
-      if(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, defaultFilterFileName) is var currentDirConfig && File.Exists(currentDirConfig))
+      var dllDirectory = Path.GetDirectoryName(new System.Uri(System.Reflection.Assembly.GetExecutingAssembly().CodeBase).LocalPath);
+      if (Path.Combine(dllDirectory, defaultFilterFileName) is var currentDirConfig && File.Exists(currentDirConfig))
         return currentDirConfig;
-      if(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), defaultFilterFileName) is var homeDirConfig && File.Exists(homeDirConfig))
+      if(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), defaultFilterFileName) is var homeDirConfig && File.Exists(homeDirConfig))
         return homeDirConfig;
       throw new Exception($"Filters config file not specified in commandline argument or not found in path '{currentDirConfig}' or '{homeDirConfig}'"); 
     }

@@ -15,7 +15,7 @@ namespace filterLog
       try
       {
         if (args.Length < 1)
-          throw new Exception("First argument shuold be path to log file");
+           throw new Exception("First argument shuold be path to log file");
         if (args.Length > 2)
           throw new Exception("Too many arguments. Should be one or too");
         var logPath = args[0];
@@ -52,23 +52,12 @@ namespace filterLog
             Console.WriteLine(line);
           }
         }
-        //var options = new JsonSerializerOptions
-        //{
-        //    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-        //    WriteIndented = true
-        //};
-        //var jsonString = File.ReadAllText("my-model.json");
-        //var jsonModel = JsonSerializer.Deserialize<MyModel>(jsonString, options);
-        //var jsonModel = new FiltersDto(){ CommonSettings = new FiltersHeader(), Reactives = new List<Reactive>(){ new Reactive(), new Reactive()}};
-        //var modelJson = JsonSerializer.Serialize(jsonModel, options);
-        //Console.WriteLine(modelJson);
-        //Console.WriteLine("Hello World!");
       }
       catch (Exception ex)
       {
-        Console.WriteLine(ex.Message);
-        Console.WriteLine();
-        Console.WriteLine(Help);
+        Console.Error.WriteLine(ex.Message);
+        Console.Error.WriteLine();
+        Console.Error.WriteLine(Help);
         return -1;
       }
       return 0;
